@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+        *{
+    padding:0;
+    margin:0;
+    box-sizing: border-box;
+}
+body{
+    background: #E9ECF4;
+    color:#000;
+    font-family: 'Roboto', sans-serif;
+}
+.contenedor{
+    width:90%;
+    max-width: 1200px;
+    margin:20px auto;
+    display: grid;
+    /* grid-gap:10px; */
+    grid-template-columns: repeat(4,1fr);
+    grid-template-rows: repeat(6,auto);
+}
+
+.contenedor .header,
+.contenedor .score,
+.contenedor .choose_form,
+.contenedor .activities{
+    background: #fff;
+    padding: 20px;
+}
+
+.contenedor .header{
+    grid-column:1/5;
+    text-align: center;
+}
+.contenedor .score{
+    grid-column:1/5;
+    text-align: center;
+}
+
+.contenedor .choose_form{
+    grid-column:1/5;
+    text-align: center;
+}
+
+.contenedor .activities{
+    grid-column:1/5;
+    text-align: center;
+}
+
+.choose_form{
+    display: flex;
+    justify-content: space-around;
+}
+
+.score {
+    display: flex;
+    justify-content: space-around;
+}
+
+.forma{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+    padding: 10px;
+}
+
+.forma p{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.mensajes .rojo{
+    color: red
+}
+.mensajes .verde{
+    color: green;
+}
+</style>
+
+</head>
+<body>
+    <div class="contenedor">
+        <div class="header"><h2>Ninja Gold Game</h2></div>
+        <div class="score">
+            <div class="puntos">
+                <h3 >Your Gold: {{gold}}</h3>
+                <h3 >Total Move: {{session['move']}}</h3>
+            </div>            
+            <div class="reset_place">
+                
+                <form action="/reset" method="POST" class="reset">
+                    <input type="submit" name="submit" value="Reset">
+                  </form>
+            </div>
+        </div>
+        <div class="choose_form">
+            <div class="forma">
+                <h3>Farm</h3>
+                <p>(earns 10-20 gold)</p>
+                <form action="/process_money" method="POST">
+                  <input type="hidden" name="action" value="farm" />
+                  <input type="submit" name="submit" value="Find Gold!" class="btn btn-outline-secondary"/>
+                </form>
+            </div>
+            <div class="forma">
+                <h3>Cave</h3>
+                <p>(earns 5-10 gold)</p>
+                <form action="/process_money" method="POST">
+                <input type="hidden" name="action" value="cave" />
+                <input type="submit" name="submit" value="Find Gold!" class="btn btn-outline-secondary"/>
+                </form>
+            </div>
+            <div class="forma">
+                <h3>House</h3>
+                <p>(earns 2-5 gold)</p>
+                <form action="/process_money" method="POST">
+                <input type="hidden" name="action" value="house" />
+                <input type="submit" name="submit" value="Find Gold!" class="btn btn-outline-secondary"/>
+                </form>
+            </div>
+            <div class="forma">
+                <h3>Casino</h3>
+                <p>(earns/lose/takes -50-50 gold)</p>
+                <form action="/process_money" method="POST">
+                  <input type="hidden" name="action" value="casino" />
+                  <input type="submit" name="submit" value="Find Gold!" class="btn btn-outline-secondary"/>
+                </form>
+            </div>
+        </div>
+        <div class="activities">
+            <h3>Activities</h3>
+            <div class="mensajes">
+                <textarea name="texto" id="" cols="100" rows="10">
+                    
+                        {% for activity in activities %}
+                        {% if '..' in activity %}
+                            <div class="rojo">
+                            {{activity}}
+                            </div>
+                        {% endif %}
+                        {% if '!' in activity %}
+                            <div class="verde">   
+                                {{activity}}
+                            </div>
+                        {% endif %}
+                        {% endfor %}
+                    
+                </textarea>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
